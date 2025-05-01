@@ -13,14 +13,14 @@ const records = [];
 // Event Listeners
 $sort.onchange = () => {
   const sortOption = $sort.options.selectedIndex;
-  if (sortOption === 0) {
+  if (sortOption === 1) {
     records.sort((a, b) => {
       if (a.name > b.name) return 1;
       if (a.name < b.name) return -1;
       return 0;
     });
     renderTable(records);
-  } else if (sortOption === 1) {
+  } else if (sortOption === 2) {
     records.sort((a, b) => {
       if (a.grade > b.grade) return 1;
       if (a.grade < b.grade) return -1;
@@ -88,14 +88,21 @@ function renderTable(data) {
     }
     // create delete button and append to records
     const td = document.createElement("td");
-    const button = document.createElement("button");
-    button.innerText = "X";
-    button.onclick = () => {
+    const deleteBtn = document.createElement("i");
+    deleteBtn.classList.add("fa-solid", "fa-trash");
+    deleteBtn.onclick = () => {
       removeRecord(index);
     };
-    td.appendChild(button);
+    td.appendChild(deleteBtn);
     tr.appendChild(td);
-    // add row to table
+    // add color based on grades
+    if (student.grade < 60) {
+      tr.classList.add("f-grade");
+    } else if (student.grade < 76) {
+      tr.classList.add("b-grade");
+    } else {
+      tr.classList.add("a-grade");
+    }
     $table.appendChild(tr);
   });
 }

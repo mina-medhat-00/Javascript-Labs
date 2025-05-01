@@ -11,27 +11,29 @@ $taskForm.addEventListener("submit", (e) => {
 });
 
 function addTask(task) {
-  const tr = document.createElement("tr");
-  const checkedCell = document.createElement("td");
-  const taskCell = document.createElement("td");
-  const deleteCell = document.createElement("td");
-  const deleteBtn = document.createElement("button");
-  const checked = document.createElement("input");
+  task = task.trim();
+  if (task.length !== 0) {
+    const tr = document.createElement("tr");
+    const checkedCell = document.createElement("td");
+    const taskCell = document.createElement("td");
+    const deleteCell = document.createElement("td");
+    const deleteBtn = document.createElement("i");
+    const checked = document.createElement("input");
 
-  checked.setAttribute("type", "checkbox");
-  checked.onclick = () => {
-    taskCell.style.textDecoration = "line-through";
-    checked.disabled = true;
-  };
-  deleteBtn.textContent = "Delete";
-  deleteBtn.onclick = () => {
-    tr.remove();
-  };
+    checked.setAttribute("type", "checkbox");
+    checked.onclick = () => {
+      taskCell.style.textDecoration = "line-through";
+      checked.disabled = true;
+    };
+    deleteBtn.classList.add("fa-solid", "fa-trash");
+    deleteBtn.onclick = () => {
+      tr.remove();
+    };
+    taskCell.textContent = task;
 
-  taskCell.textContent = task;
-
-  checkedCell.appendChild(checked);
-  deleteCell.appendChild(deleteBtn);
-  tr.append(checkedCell, taskCell, deleteCell);
-  $table.appendChild(tr);
+    checkedCell.appendChild(checked);
+    deleteCell.appendChild(deleteBtn);
+    tr.append(checkedCell, taskCell, deleteCell);
+    $table.appendChild(tr);
+  }
 }
