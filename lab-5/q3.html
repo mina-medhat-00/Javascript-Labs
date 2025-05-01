@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 0;
+      }
+      table {
+        border-collapse: collapse;
+        margin: 0 auto;
+      }
+      tr:first-child {
+        color: white;
+        background-color: red;
+      }
+      tr:nth-child(even) {
+        background-color: lightgray;
+      }
+      td {
+        text-align: center;
+        padding: 10px 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="post" id="task-form">
+      <input type="text" id="task" />
+      <button type="submit">Add</button>
+    </form>
+    <table border="1" id="task-table">
+      <tbody>
+        <tr>
+          <td>Done</td>
+          <td>Task</td>
+          <td>Delete</td>
+        </tr>
+      </tbody>
+    </table>
+    <script src="q3.js"></script>
+  </body>
+</html>
