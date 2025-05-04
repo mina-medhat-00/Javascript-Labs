@@ -29,6 +29,8 @@ class Car extends Engine {
     this.car = document.createElement("img");
     this.car.src = this.source;
     this.car.style.position = "absolute";
+    this.car.style.top = `${top}px`;
+    this.car.style.left = `${left}px`;
   }
 
   set top(value) {
@@ -60,37 +62,40 @@ class Car extends Engine {
     if (Number(step) > 0) {
       const maxRight = window.innerWidth - this.car.offsetWidth;
       this.#left = Math.min(maxRight, this.#left + step);
-      this.car.style.left = `${this.left}px`;
+      this.car.style.left = `${this.#left}px`;
     }
   }
 
   changeStyle(css) {
     for (let key in css) {
-      this.car.style.key = css[key];
+      this.car.style[key] = css[key];
     }
   }
 
   moveCar(direction) {
     if (direction === "left") {
-      while (this.#left > 0) {
-        if (this.#left < 0) {
-          this.#left = 0;
-          return;
-        }
+      const interval = setInterval(() => {
         this.moveLeft(10);
-      }
+        if (this.#left === 0) {
+          clearInterval(interval);
+        }
+      }, 10);
     } else if (direction === "right") {
       const maxRight = window.innerWidth - this.car.offsetWidth;
-      while (this.#left < maxRight) {
-        if (this.#left > maxRight) {
-          this.#left = maxRight;
-          return;
-        }
+      const interval = setInterval(() => {
         this.moveRight(10);
-      }
+        if (this.#left === maxRight) {
+          clearInterval(interval);
+        }
+      }, 10);
     }
   }
 }
 
-const c = new Car(0, 0, "./images/car.png");
+// test
+const c = new Car(100, 100, "./images/car.png");
 document.body.appendChild(c.car);
+c.moveCar("right");
+setTimeout(() => {
+  c.moveCar("left");
+}, 3000);
