@@ -9,7 +9,7 @@ class Engine {
     Engine.#count++;
   }
 
-  get source() {
+  get sourceGetter() {
     return this.source;
   }
 
@@ -19,28 +19,39 @@ class Engine {
 }
 
 class Car extends Engine {
+  #top = 0;
+  #left = 0;
+
   constructor(top, left, source) {
     super(source);
-    this.top = top;
-    this.left = left;
+    this.#top = top;
+    this.#left = left;
     this.car = document.createElement("img");
     this.car.src = this.source;
     this.car.style.position = "absolute";
   }
 
-  set top(top) {
-    this.top = top;
-    this.car.style.top = `${this.top}px`;
+  set top(value) {
+    this.#top = value;
+    this.car.style.top = `${this.#top}px`;
   }
 
-  set left(left) {
-    this.left = left;
-    this.car.style.left = `${this.left}px`;
+  get top() {
+    return this.#top;
+  }
+
+  set left(value) {
+    this.#left = value;
+    this.car.style.left = `${this.#left}px`;
+  }
+
+  get left() {
+    return this.#left;
   }
 
   moveLeft(step) {
     if (Number(step) > 0) {
-      this.left = Math.max(0, this.left - step);
+      this.#left = Math.max(0, this.#left - step);
       this.car.style.left = `${this.left}px`;
     }
   }
@@ -48,7 +59,7 @@ class Car extends Engine {
   moveRight(step) {
     if (Number(step) > 0) {
       const maxRight = window.innerWidth - this.car.offsetWidth;
-      this.left = Math.min(maxRight, this.left + step);
+      this.#left = Math.min(maxRight, this.#left + step);
       this.car.style.left = `${this.left}px`;
     }
   }
@@ -59,20 +70,20 @@ class Car extends Engine {
     }
   }
 
-  createMoveCar(direction) {
+  moveCar(direction) {
     if (direction === "left") {
-      while (this.left > 0) {
-        if (this.left < 0) {
-          this.left = 0;
+      while (this.#left > 0) {
+        if (this.#left < 0) {
+          this.#left = 0;
           return;
         }
         this.moveLeft(10);
       }
     } else if (direction === "right") {
       const maxRight = window.innerWidth - this.car.offsetWidth;
-      while (this.left < maxRight) {
-        if (this.left > maxRight) {
-          this.left = maxRight;
+      while (this.#left < maxRight) {
+        if (this.#left > maxRight) {
+          this.#left = maxRight;
           return;
         }
         this.moveRight(10);
@@ -80,3 +91,6 @@ class Car extends Engine {
     }
   }
 }
+
+const c = new Car(0, 0, "./images/car.png");
+document.body.appendChild(c.car);
