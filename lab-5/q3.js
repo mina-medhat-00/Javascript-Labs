@@ -4,8 +4,7 @@ const $table = document.querySelector("#task-table").tBodies[0];
 
 $taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const task = $taskInput.value;
-  addTask(task);
+  addTask($taskInput.value);
   $taskForm.reset();
   $taskInput.focus();
 });
@@ -18,20 +17,23 @@ function addTask(task) {
     const taskCell = document.createElement("td");
     const deleteCell = document.createElement("td");
     const deleteBtn = document.createElement("i");
-    const checked = document.createElement("input");
+    const checkedInput = document.createElement("input");
 
-    checked.setAttribute("type", "checkbox");
-    checked.onclick = () => {
-      taskCell.style.textDecoration = "line-through";
-      checked.disabled = true;
-    };
+    taskCell.textContent = task;
+    checkedInput.setAttribute("type", "checkbox");
     deleteBtn.classList.add("fa-solid", "fa-trash");
+    checkedInput.onclick = () => {
+      if (checkedInput.checked) {
+        taskCell.style.textDecoration = "line-through";
+      } else {
+        taskCell.style.textDecoration = "none";
+      }
+    };
     deleteBtn.onclick = () => {
       tr.remove();
     };
-    taskCell.textContent = task;
 
-    checkedCell.appendChild(checked);
+    checkedCell.appendChild(checkedInput);
     deleteCell.appendChild(deleteBtn);
     tr.append(checkedCell, taskCell, deleteCell);
     $table.appendChild(tr);
